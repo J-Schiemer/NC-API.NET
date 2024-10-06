@@ -11,3 +11,16 @@ obj/
 /wwwroot/node_modules
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore
+
+# TXT, JPG, PNG and Other Common test files
+*.txt
+*.JPG
+*.jpg
+*.png
+*.PNG
+*.mp4
+*.MP4
+*.mp3
+*.MP3
+*.PDF
+*.pdf
