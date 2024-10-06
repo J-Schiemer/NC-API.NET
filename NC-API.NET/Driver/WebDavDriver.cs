@@ -4,6 +4,7 @@ using System.Web;
 using System.Xml.Linq;
 using NC_API.NET.Containers;
 using Microsoft.AspNetCore.StaticFiles;
+using NC_API.NET.Helpers;
 
 namespace NC_API.NET.Driver;
 
@@ -41,7 +42,7 @@ public static class WebDavDriver
             request.Content = new StringContent(Constants.PROPFIND_XML, Encoding.UTF8, "application/xml");
             HttpResponseMessage response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
 
             // Parse Response
             string responseContent = await response.Content.ReadAsStringAsync();
@@ -77,7 +78,7 @@ public static class WebDavDriver
 
             HttpResponseMessage response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
         }
         catch (Exception e) when (e is not NextcloudException)
         {
@@ -109,7 +110,7 @@ public static class WebDavDriver
 
             HttpResponseMessage response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
         }
         catch (Exception e) when (e is not NextcloudException)
         {
@@ -136,7 +137,7 @@ public static class WebDavDriver
 
             HttpResponseMessage response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
         }
         catch (Exception e) when (e is not NextcloudException)
         {
@@ -164,7 +165,7 @@ public static class WebDavDriver
 
             HttpResponseMessage response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
         }
         catch (Exception e) when (e is not NextcloudException)
         {
@@ -192,7 +193,7 @@ public static class WebDavDriver
 
             HttpResponseMessage response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
 
             using (Stream contentStream = await response.Content.ReadAsStreamAsync())
             {
@@ -234,7 +235,7 @@ public static class WebDavDriver
 
             var response = await client.PutAsync(sourcePath, content);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSucessOrThrowNcException();
         }
         catch (Exception e) when (e is not NextcloudException)
         {

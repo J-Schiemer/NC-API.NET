@@ -1,5 +1,11 @@
 ﻿using NC_API.NET;
 
+/*
+This is just a quick-and-dirty proof of concept for how to use this library.
+It consists of a main loop that presents the user with options. The options are then called via a giant, ugly switch statement.
+These methods then call the library - the interesting parts are highlighted with comments.
+*/
+
 Console.Write("Enter URL (e.g.: https://nc.example.com):");
 var url = Console.ReadLine();
 
@@ -16,6 +22,7 @@ if ((user is null) || (password is null) || (url is null))
     return;
 }
 
+// Create new Nextcloud Instance.
 using var nextcloud = new Nextcloud(user, password, url);
 
 while (true)
@@ -42,6 +49,7 @@ async Task ListFolders(Nextcloud nextcloud)
     Console.Write("\n------ List Folder ------\nEnter Remote Path: ");
     var path = Console.ReadLine() ?? "/";
 
+    // List Folders
     try
     {
         var result = await nextcloud.ListDirectory(path);
@@ -81,6 +89,7 @@ async Task GetFile(Nextcloud nextcloud)
 
     try
     {
+        // Download a File
         await nextcloud.Download(path, local);
     }
     catch (NextcloudException e)
@@ -102,6 +111,7 @@ async Task DeleteFile(Nextcloud nextcloud)
 
     try
     {
+        // Delete a file or folder
         await nextcloud.Delete(path);
     }
     catch (NextcloudException e)
@@ -123,6 +133,7 @@ async Task CreateFolder(Nextcloud nextcloud)
 
     try
     {
+        // Create a folder
         await nextcloud.Create(path);
     }
     catch (NextcloudException e)
@@ -146,6 +157,7 @@ async Task Move(Nextcloud nextcloud)
 
     try
     {
+        // Move a folder or file
         await nextcloud.Move(source, destination);
     }
     catch (NextcloudException e)
@@ -169,6 +181,7 @@ async Task Copy(Nextcloud nextcloud)
 
     try
     {
+        // Copy a folder or file
         await nextcloud.Copy(source, destination);
     }
     catch (NextcloudException e)
@@ -192,6 +205,7 @@ async Task Upload(Nextcloud nextcloud)
 
     try
     {
+        // upload a file
         await nextcloud.Upload(local, target);
     }
     catch (NextcloudException e)
