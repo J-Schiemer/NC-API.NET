@@ -269,8 +269,15 @@ public static class WebDavDriver
         }
 
         // otherwise, parse all values into FolderEntries
-        var items = xmlDoc.Descendants(d + Constants.RESPONSE_NODE).Select(item =>
+        var items = xmlDoc.Descendants(d + Constants.RESPONSE_NODE).Where(item => { // Skip Current Dir
+            var href = item.Descendants(d + Constants.NAME_NODE).FirstOrDefault()?.Value ?? "";
+            return !(href.EndsWith(path) || href.EndsWith($"{path}/")); // Current Directory
+        }).Select(item =>
         {
+            // The last part of the href is the filename or foldername!
+            var href = item.Descendants(d + Constants.NAME_NODE).FirstOrDefault()?.Value ?? "";
+            var name = href.TrimEnd('/').Split('/').LastOrDefault() ?? "NONAME";
+
             // Element Size in Bytes
             var size = item.Descendants(oc + Constants.SIZE_NODE).FirstOrDefault()?.Value ?? "0";
             long.TryParse(size, out long sizeLong);
@@ -302,10 +309,6 @@ public static class WebDavDriver
             {
                 lastModified = DateTime.UtcNow;
             }
-
-            // The last part of the href is the filename or foldername!
-            var href = item.Descendants(d + Constants.NAME_NODE).FirstOrDefault()?.Value ?? "";
-            var name = href.TrimEnd('/').Split('/').LastOrDefault() ?? "NONAME";
 
             return new FolderElement()
             {
