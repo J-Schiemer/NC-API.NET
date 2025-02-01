@@ -5,7 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <PackageId>JSchiemer.NC.API.NET</PackageId>
     <LangVersion>13</LangVersion>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
